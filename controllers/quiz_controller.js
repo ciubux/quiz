@@ -36,7 +36,13 @@ exports.answer = function(req, res)
 //GET /quizes
 exports.index = function(req, res)
 {
-	models.Quiz.findAll().then(function(quizes)
+	var search = '%';
+	if (req.query.search)
+	{
+		search = "%"+req.query.search.replace(' ','%')+"%";	
+	}	
+	
+	models.Quiz.findAll({where: ["pregunta like ?", search], order: [['pregunta', 'ASC'],] }).then(function(quizes)
 	{
 		res.render('quizes/index.ejs',{quizes:quizes});
 	})	
