@@ -40,10 +40,19 @@ sequelize.sync().success(function()
 			{ 
 				pregunta: 'Capital de Italia',
 				respuesta: 'Roma'
+			});
+		}
+		if(count === 1) 
+		{   // la tabla se inicializa solo si está
+			Quiz.create(
+			{ 
+				pregunta: 'Capital de Portugal',
+				respuesta: 'Lisboa'
 			})
-			.success(function()
+			.then(function()
 			{
-				console.log('Base de datos inicializada')});
+				console.log('Base de datos inicializada')
+			});
 		};
 	});			
 });
