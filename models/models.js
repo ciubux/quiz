@@ -31,9 +31,9 @@ exports.Quiz = Quiz;
 
 // sequelize.sync() crea e inicializa tabla de preguntas
 //sequelize.sync({force: true}).success(function() 
-sequelize.sync().success(function() 
+sequelize.sync().then(function() 
 {
-	Quiz.count().success(function (count)
+	Quiz.count().then(function (count)
 	{
     		if(count === 0) 
 		{   // la tabla se inicializa solo si está
