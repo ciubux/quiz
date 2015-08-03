@@ -23,14 +23,17 @@ exports.show = function(req, res)
 // GET /quizes/:id/answer
 exports.answer = function(req, res) 
 {
-	var resultado = 'Incorrecto';
-	if (req.query.respuesta ===req.quiz.respuesta) 
-	{
-		resultado = 'Correcto';
-	}
-	res.render('quizes/answer', 
-		{ quiz: req.quiz, respuesta: resultado , errors: [] });
-	
+  var resultado = 'Incorrecto';
+  if (req.query.respuesta === req.quiz.respuesta) {
+    resultado = 'Correcto';
+  }
+  res.render(
+    'quizes/answer', 
+    { quiz: req.quiz, 
+      respuesta: resultado, 
+      errors: []
+    }
+  );
 };
 
 //GET /quizes
@@ -51,10 +54,11 @@ exports.index = function(req, res)
 
 exports.new = function(req,res)
 {
-	var quiz = models.Quiz.build(
-		{ pregunta: "Pregunta", respuesta: "Respuesta", tema: "tema" }
-	);
-	res.render('quizes/new',{quiz: quiz , errors: [] });
+  var quiz = models.Quiz.build(
+    {pregunta: "Pregunta", respuesta: "Respuesta"}
+  );
+
+  res.render('quizes/new', {quiz: quiz, errors: []});
 };
 
 exports.create = function(req, res)
@@ -94,30 +98,25 @@ exports.update = function(req, res)
 	req.quiz.respuesta = req.body.quiz.respuesta;
 	req.quiz.tema = req.body.quiz.tema;
 
-	req.quiz
-	.validate()
-	.then(
-	function(err)
-		{
-			if(err)
-			{ 
-				res.render('quizes/edit', {quiz: req.quiz, errors: err.errors});
-			}
-			else
-			{
-				req.quiz
-				.save( { fields: ["pregunta","respuesta","tema"]})
-				.then(function(){ res.redirect('/quizes');});
-			}	
-		}
-	);
+  req.quiz
+  .validate()
+  .then(
+    function(err){
+      if (err) {
+        res.render('quizes/edit', {quiz: req.quiz, errors: err.errors});
+      } else {
+        req.quiz    
+        .save( {fields: ["pregunta", "respuesta", "tema"]})
+        .then( function(){ res.redirect('/quizes');});
+      }   
+    }
+  ).catch(function(error){next(error)});
 };
 
 exports.destroy = function(req, res)
 {
-	req.quiz.destroy().then(function()
-	{
-		res.redirect('/quizes');
-	}).catch(function(error){ next(error)});
+  req.quiz.destroy().then( function() {
+    res.redirect('/quizes');
+  }).catch(function(error){next(error)});
 };
 
