@@ -30,7 +30,8 @@ var Quiz = sequelize.import(path.join(__dirname,'quiz'));
 exports.Quiz = Quiz;
 
 // sequelize.sync() crea e inicializa tabla de preguntas
-sequelize.sync().success(function() 
+sequelize.sync({force: true}).success(function() 
+//sequelize.sync().success(function() 
 {
 	Quiz.count().success(function (count)
 	{
@@ -39,21 +40,20 @@ sequelize.sync().success(function()
 			Quiz.create(
 			{ 
 				pregunta: 'Capital de Italia',
-				respuesta: 'Roma'
+				respuesta: 'Roma',
+				tema: 'otro'
 			});
-		}
-		if(count === 1) 
-		{   // la tabla se inicializa solo si está
 			Quiz.create(
 			{ 
 				pregunta: 'Capital de Portugal',
-				respuesta: 'Lisboa'
+				respuesta: 'Lisboa',
+				tema: 'otro'
 			})
 			.then(function()
 			{
 				console.log('Base de datos inicializada')
 			});
-		};
+		}
 	});			
 });
      
