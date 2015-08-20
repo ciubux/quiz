@@ -15,8 +15,6 @@ exports.load = function(req, res, next, quizId) {
   ).catch(function(error){next(error)});
 };
 
-
-
 // GET /quizes/:id
 exports.show = function(req, res) 
 {
